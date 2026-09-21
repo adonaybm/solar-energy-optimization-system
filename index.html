@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar Energy Optimization System</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<header class="hero">
+  <div>
+    <p class="eyebrow">ROBOTICS & ELECTRONICS • PORTFOLIO PROJECT</p>
+    <h1>Solar Energy Optimization System</h1>
+    <p class="subtitle">Interactive simulation of automatic solar tracking, LDR sensing, photovoltaic output, and temperature-related losses.</p>
+  </div>
+  <div class="mode-pill"><span id="modeDot"></span><span id="modeText">AUTOMATIC TRACKING</span></div>
+</header>
+
+<main>
+  <section class="metrics">
+    <article class="metric"><span>Modeled Power</span><strong id="power">0 W</strong><small>Electrical output</small></article>
+    <article class="metric"><span>System Efficiency</span><strong id="efficiency">0%</strong><small>After modeled losses</small></article>
+    <article class="metric"><span>Tracking Error</span><strong id="trackingError">0°</strong><small>Sun vs panel angle</small></article>
+    <article class="metric"><span>Thermal Loss</span><strong id="thermalLoss">0 W</strong><small>Estimated temperature loss</small></article>
+  </section>
+
+  <section class="grid-main">
+    <article class="panel-card simulation-card">
+      <div class="section-heading"><div><p class="eyebrow">LIVE MODEL</p><h2>Solar Tracker</h2></div><span class="status" id="trackerStatus">ALIGNED</span></div>
+      <div class="sky">
+        <div class="sun" id="sun"></div>
+        <div class="sun-label">SUN</div>
+        <div class="ray ray1"></div><div class="ray ray2"></div><div class="ray ray3"></div>
+        <div class="panel-frame" id="panelFrame">
+          <div class="pv-grid">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="mount"></div>
+        <div class="ground"></div>
+      </div>
+      <div class="angle-readout"><span>Sun <b id="sunAngleReadout">45°</b></span><span>Panel <b id="panelAngleReadout">45°</b></span><span>Error <b id="errorReadout">0°</b></span></div>
+    </article>
+
+    <article class="panel-card controls-card">
+      <div class="section-heading"><div><p class="eyebrow">CONTROL SYSTEM</p><h2>Tracker Controls</h2></div></div>
+      <label class="switch-row"><span><b>Automatic tracking</b><small>Simulated controller continuously adjusts the panel.</small></span><input id="autoTrack" type="checkbox" checked><i class="switch"></i></label>
+      <div class="control" id="manualControl"><div class="control-label"><span>Manual panel angle</span><b><span id="manualAngleValue">45</span>°</b></div><input id="manualAngle" type="range" min="0" max="90" value="45"></div>
+      <div class="control"><div class="control-label"><span>Sun position</span><b><span id="sunPositionValue">45</span>°</b></div><input id="sunPosition" type="range" min="0" max="90" value="45"></div>
+      <div class="control"><div class="control-label"><span>Solar irradiance</span><b><span id="irradianceValue">850</span> W/m²</b></div><input id="irradiance" type="range" min="200" max="1200" value="850"></div>
+      <div class="control"><div class="control-label"><span>Ambient temperature</span><b><span id="temperatureValue">30</span> °C</b></div><input id="temperature" type="range" min="10" max="60" value="30"></div>
+      <div class="control"><div class="control-label"><span>Panel area</span><b><span id="areaValue">1.0</span> m²</b></div><input id="area" type="range" min="0.4" max="3" step="0.1" value="1"></div>
+    </article>
+  </section>
+
+  <section class="grid-two">
+    <article class="panel-card">
+      <div class="section-heading"><div><p class="eyebrow">SENSOR LAYER</p><h2>Simulated LDR Array</h2></div><span class="sensor-note">4-channel light sensing</span></div>
+      <p class="muted">Each LDR estimates relative light intensity. The controller compares opposite sensors to determine the direction of correction.</p>
+      <div class="ldr-grid">
+        <div class="ldr"><span>Top Left</span><b id="ldrTL">0</b><div><i id="barTL"></i></div></div>
+        <div class="ldr"><span>Top Right</span><b id="ldrTR">0</b><div><i id="barTR"></i></div></div>
+        <div class="ldr"><span>Bottom Left</span><b id="ldrBL">0</b><div><i id="barBL"></i></div></div>
+        <div class="ldr"><span>Bottom Right</span><b id="ldrBR">0</b><div><i id="barBR"></i></div></div>
+      </div>
+      <div class="logic-box"><b>Controller logic:</b> compare left/right and top/bottom sensor averages; if the error exceeds the deadband, move the simulated actuator toward the brighter side.</div>
+    </article>
+
+    <article class="panel-card">
+      <div class="section-heading"><div><p class="eyebrow">POWER MODEL</p><h2>Output Calculation</h2></div></div>
+      <div class="formula">P ≈ G × A × η × cos(θ) × T<sub>factor</sub></div>
+      <div class="calculation-grid">
+        <div><span>Irradiance</span><b id="calcIrr">850 W/m²</b></div>
+        <div><span>Area</span><b id="calcArea">1.0 m²</b></div>
+        <div><span>Base efficiency</span><b>20%</b></div>
+        <div><span>Temperature factor</span><b id="tempFactor">100%</b></div>
+      </div>
+      <div class="efficiency-bar"><i id="efficiencyBar"></i></div>
+      <p class="muted" id="interpretation">The model updates as you change the controls.</p>
+    </article>
+  </section>
+
+  <section class="panel-card chart-card">
+    <div class="section-heading"><div><p class="eyebrow">PERFORMANCE</p><h2>Modeled Power History</h2></div><button id="clearChart">Clear history</button></div>
+    <div class="chart-wrap"><canvas id="powerChart"></canvas></div>
+  </section>
+
+  <section class="grid-two">
+    <article class="panel-card">
+      <div class="section-heading"><div><p class="eyebrow">THERMAL MODEL</p><h2>Temperature Analysis</h2></div></div>
+      <div class="thermal-number"><span>Estimated cell temperature</span><strong id="cellTemperature">0 °C</strong></div>
+      <p class="muted">The simplified model applies a temperature coefficient above a 25°C reference. Real photovoltaic modules should be calibrated using their datasheet temperature coefficient and measured field conditions.</p>
+    </article>
+    <article class="panel-card">
+      <div class="section-heading"><div><p class="eyebrow">PROJECT PURPOSE</p><h2>Engineering Context</h2></div></div>
+      <p class="muted">This digital model extends a physical solar-energy and tracking concept into a testable software environment. It can later be connected to an Arduino or ESP32 to display real voltage, current, LDR and temperature readings.</p>
+    </article>
+  </section>
+</main>
+
+<footer>Solar Energy Optimization System • Interactive engineering prototype</footer>
+<script src="script.js"></script>
+</body>
+</html>
