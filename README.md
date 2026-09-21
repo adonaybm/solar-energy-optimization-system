@@ -8,7 +8,7 @@ An interactive engineering web application that models a photovoltaic system wit
 
 ## 📸 Project Preview
 
-![Solar Energy Optimization System](solar-energy-optimization-system.png)
+![Solar Energy Optimization System](solar-energy-optimization-system.png.png)
 
 ## Project purpose
 
