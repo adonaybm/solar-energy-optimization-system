@@ -6,6 +6,10 @@ An interactive engineering web application that models a photovoltaic system wit
 
 [**Open the Solar Energy Optimization System →**](https://adonaybm.github.io/solar-energy-optimization-system/)
 
+## 📸 Project Preview
+
+![Solar Energy Optimization System](solar-energy-optimization-system.png)
+
 ## Project purpose
 
 This project extends a physical solar-energy and solar-tracking interest into a computational model that can be tested, visualized, and explained.
