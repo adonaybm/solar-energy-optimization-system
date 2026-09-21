@@ -2,6 +2,10 @@
 
 An interactive engineering web application that models a photovoltaic system with automatic solar tracking, a simulated four-LDR sensor array, photovoltaic power calculations, and temperature-related efficiency losses.
 
+## 🚀 Live Demo
+
+[**Open the Solar Energy Optimization System →**](https://adonaybm.github.io/solar-energy-optimization-system/)
+
 ## Project purpose
 
 This project extends a physical solar-energy and solar-tracking interest into a computational model that can be tested, visualized, and explained.
